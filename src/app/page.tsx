@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
 import { Grid } from "../components/grid";
 import { Pagination } from "../components/Pagination";
+import { ErrorComponent } from "@/components/error";
 interface PageData {
   data: {
     Page: {
@@ -27,11 +28,11 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<boolean>(true);
-  const handleError = (e:any)=>{
+  const handleError = (e: any) => {
     console.log(e);
     setError(true)
   }
-  const handleData = (data:PageData)=>{
+  const handleData = (data: PageData) => {
     console.log(data);
     setNextPage(data.data.Page.pageInfo.hasNextPage)
   }
@@ -75,14 +76,15 @@ query ($id: Int, $page: Int, $perPage: Int, $search: String) {
         })
       };
 
-    fetch(url, options).then(res=>res.json())
+    fetch(url, options).then(res => res.json())
       .then(handleData)
       .catch(handleError);
   }, [currentPage, term])
   return (
     <main>
       <Nav setVal={setTerm} />
-      <Grid />
+
+      {error ? <ErrorComponent /> : <Grid />}
       <Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} />
     </main>
   )
