@@ -10,7 +10,7 @@ export default function App(){
     <main>
       <Nav setVal={setTerm}/>
       <Grid/>
-      <Pagination page={currentPage}/>
+      <Pagination page={currentPage} setPage={setCurrentPage}/>
     </main>
   )
 }
