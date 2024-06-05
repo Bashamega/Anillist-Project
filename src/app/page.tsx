@@ -1,8 +1,8 @@
 "use client"
 import React, { useState } from "react";
-import { Nav } from "./components/Nav";
-import { Grid } from "./components/grid";
-import { Pagination } from "./components/Pagination";
+import { Nav } from "../components/Nav";
+import { Grid } from "../components/grid";
+import { Pagination } from "../components/Pagination";
 export default function App(){
   const [term, setTerm] = useState<string>('');
   const [currentPage, setCurrentPage] = useState<number>(1)
