@@ -1,14 +1,18 @@
 import { PageData } from "@/app/page";
 import React from "react";
 import { CardElement } from "./CardElement";
-export function Grid({ data }: { data: PageData | undefined }) {
+import { Pagination } from "./Pagination";
+export function Grid({ data, currentPage, setCurrentPage, nextPage }: { data: PageData | undefined, currentPage:number, setCurrentPage:React.Dispatch<React.SetStateAction<number>>, nextPage:boolean}) {
     return (
         <section>
             {data && data.data.Page.media.length > 0 ? (
-                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-10 mt-32">
-                    {data.data.Page.media.map(element => (
-                        <CardElement element={element}/>
-                    ))}
+                <div>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-10 mt-32">
+                        {data.data.Page.media.map(element => (
+                            <CardElement element={element} />
+                        ))}
+                    </div>
+                    <Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} />
                 </div>
             ) : (
                 <div className="flex items-center justify-center min-h-screen absolute top-0 left-0 w-screen">
@@ -16,7 +20,7 @@ export function Grid({ data }: { data: PageData | undefined }) {
                         <strong className="font-bold">No search results</strong>
                         <br></br>
 
-                        
+
 
                     </div>
                 </div>

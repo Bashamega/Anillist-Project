@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from "react";
 import { Nav } from "../components/Nav";
 import { Grid } from "../components/grid";
-import { Pagination } from "../components/Pagination";
 import { ErrorComponent } from "@/components/error";
 import { Loader } from "@/components/Loader";
 export interface PageData {
@@ -112,7 +111,7 @@ export default function App() {
     <main>
       <Nav setVal={setTerm} />
       {loader && <Loader />}
-      {error ? <ErrorComponent /> : <div><Grid data={data} /><Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} /></div>}
+      {error ? <ErrorComponent /> : <Grid data={data} currentPage={currentPage} setCurrentPage={setCurrentPage} nextPage={nextPage} />}
     </main>
   )
 }
