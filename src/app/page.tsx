@@ -16,6 +16,15 @@ export interface PageData {
         perPage: number
       },
       media: {
+        coverImage: {
+          large: string
+        }
+        isAdult:boolean,
+        genres: string[],
+        tags:{
+          name:string,
+          description:string
+        }[]
         id: number,
         title: {
           romaji: string
@@ -30,12 +39,13 @@ export default function App() {
   const [error, setError] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<boolean>(true);
   const [data, setData] = useState<PageData | undefined>(undefined);
-  const [loader,setLoader] = useState<boolean>(true)
+  const [loader, setLoader] = useState<boolean>(true)
   const handleError = (e: any) => {
     console.log(e);
     setError(true)
   }
   const handleData = (data: PageData) => {
+    console.log(data)
     setNextPage(data.data.Page.pageInfo.hasNextPage)
     setData(data)
   }
@@ -48,7 +58,7 @@ export default function App() {
       search: term
     };
     query = `
-      query ($id: Int, $page: Int, $perPage: Int, ${term?"$search: String":""}) {
+      query ($id: Int, $page: Int, $perPage: Int, ${term ? "$search: String" : ""}) {
         Page (page: $page, perPage: $perPage) {
           pageInfo {
             total
@@ -57,8 +67,18 @@ export default function App() {
             hasNextPage
             perPage
           }
-          media (id: $id ${term?", search: $search":""}) {
+          media (id: $id ${term ? ", search: $search" : ""}) {
             id
+            isAdult
+            genres
+            tags{
+              name
+              description
+            }
+            coverImage{
+              large,
+              
+            }
             title {
               romaji
             }
@@ -91,7 +111,7 @@ export default function App() {
   return (
     <main>
       <Nav setVal={setTerm} />
-      {loader&&<Loader/>}
+      {loader && <Loader />}
       {error ? <ErrorComponent /> : <div><Grid data={data} /><Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} /></div>}
     </main>
   )
