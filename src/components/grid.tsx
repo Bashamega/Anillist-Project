@@ -5,7 +5,7 @@ export function Grid({ data }: { data: PageData | undefined }) {
     return (
         <section>
             {data && data.data.Page.media.length > 0 ? (
-                <div className="grid grid-cols-3 gap-4 m-10 mt-32">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 m-10 mt-32">
                     {data.data.Page.media.map(element => (
                         <Card key={element.id}>
                             <CardHeader>
