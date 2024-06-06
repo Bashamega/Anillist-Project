@@ -4,6 +4,7 @@ import { Nav } from "../components/Nav";
 import { Grid } from "../components/grid";
 import { Pagination } from "../components/Pagination";
 import { ErrorComponent } from "@/components/error";
+import { Loader } from "@/components/Loader";
 export interface PageData {
   data: {
     Page: {
@@ -28,7 +29,8 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [error, setError] = useState<boolean>(false);
   const [nextPage, setNextPage] = useState<boolean>(true);
-  const [data, setData] = useState<PageData | undefined>(undefined)
+  const [data, setData] = useState<PageData | undefined>(undefined);
+  const [loader,setLoader] = useState<boolean>(true)
   const handleError = (e: any) => {
     console.log(e);
     setError(true)
@@ -38,6 +40,7 @@ export default function App() {
     setData(data)
   }
   useEffect(() => {
+    setLoader(true)
     var query = '';
     var variables = {
       page: currentPage,
@@ -83,11 +86,12 @@ export default function App() {
     fetch(url, options).then(res => res.json())
       .then(handleData)
       .catch(handleError);
+    setLoader(false)
   }, [currentPage, term])
   return (
     <main>
       <Nav setVal={setTerm} />
-
+      {loader&&<Loader/>}
       {error ? <ErrorComponent /> : <div><Grid data={data} /><Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} /></div>}
     </main>
   )
