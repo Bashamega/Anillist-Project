@@ -41,7 +41,8 @@ export default function App() {
     var query = '';
     var variables = {
       page: currentPage,
-      perPage: 30
+      perPage: 30,
+      search: term
     };
     query = `
       query ($id: Int, $page: Int, $perPage: Int, ${term?"$search: String":""}) {
@@ -53,7 +54,7 @@ export default function App() {
             hasNextPage
             perPage
           }
-          media (id: $id ${term?", search: ":""}) {
+          media (id: $id ${term?", search: $search":""}) {
             id
             title {
               romaji
@@ -87,8 +88,7 @@ export default function App() {
     <main>
       <Nav setVal={setTerm} />
 
-      {error ? <ErrorComponent /> : <Grid data={data} />}
-      <Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} />
+      {error ? <ErrorComponent /> : <div><Grid data={data} /><Pagination page={currentPage} setPage={setCurrentPage} nextPage={nextPage} /></div>}
     </main>
   )
 }
