@@ -43,9 +43,8 @@ export default function App() {
       page: currentPage,
       perPage: 30
     };
-    if(term){
-      query = `
-      query ($id: Int, $page: Int, $perPage: Int, $search: String) {
+    query = `
+      query ($id: Int, $page: Int, $perPage: Int, ${term?"$search: String":""}) {
         Page (page: $page, perPage: $perPage) {
           pageInfo {
             total
@@ -54,7 +53,7 @@ export default function App() {
             hasNextPage
             perPage
           }
-          media (id: $id, search: $search) {
+          media (id: $id ${term?", search: ":""}) {
             id
             title {
               romaji
@@ -63,29 +62,9 @@ export default function App() {
         }
       }
       `
-    }else{
-      query = `
-      query ($id: Int, $page: Int, $perPage: Int) {
-        Page (page: $page, perPage: $perPage) {
-          pageInfo {
-            total
-            currentPage
-            lastPage
-            hasNextPage
-            perPage
-          }
-          media (id: $id) {
-            id
-            title {
-              romaji
-            }
-          }
-        }
-      }
-      `
-    }
 
-    
+
+
 
     var url = 'https://graphql.anilist.co',
       options = {
