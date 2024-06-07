@@ -26,14 +26,14 @@ interface Data {
         romaji: string
     }
 }
-export function CardElement({ element }: { element: Data }) {
+export function CardElement({ element, key }: { element: Data, key:Number }) {
     return (
         <Dialog>
             <DialogTrigger>
                 <Card key={element.id} className="hover:scale-110 cursor-pointer">
                     <CardHeader>
                         <CardTitle>{element.title.romaji}</CardTitle>
-                        <img src={element.coverImage.large} alt={element.title.romaji} style={{height:"500px"}} />
+                        <Image src={element.coverImage.large} alt={element.title.romaji} width={400} height={0} />
                     </CardHeader>
                 </Card>
             </DialogTrigger>
@@ -61,7 +61,7 @@ export function CardElement({ element }: { element: Data }) {
                             <summary>What are the tags?</summary>
                             <p>The tags are:</p>
                             <div className="flex flex-wrap">
-                            {element.tags.map(tag=>(<div className="m-2 bg-green-500 text-black rounded cursor-pointer  p-2"><Tags disc={tag.description} title={tag.name} /></div>))}
+                            {element.tags.map((tag, key)=>(<div key={key} className="m-2 bg-green-500 text-black rounded cursor-pointer  p-2"><Tags disc={tag.description} title={tag.name} /></div>))}
                             </div>
                         </details>
                         
